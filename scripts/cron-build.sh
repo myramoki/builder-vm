@@ -52,9 +52,11 @@ ${EX_LOCK_CONFLICT}|${EX_NO_BUILD})
     mv ${LATEST_BUILD_PKG} ${DESTDIR}/${BUILD_LOCATION}
 
     (
+        . ${SCRIPT_DIR}/build-email-aliases
+
         echo "\
-            To: buildnotify
-            Cc: buildother
+            To: ${mailnotify}
+            Cc: ${mailother}
             Reply-To: do-not-reply@biznuvo.com
             Subject: Build ${BRANCH} :: SUCCESS
 
@@ -72,7 +74,7 @@ ${EX_LOCK_CONFLICT}|${EX_NO_BUILD})
         fi
 
         # cat ${BUILD_LOGFILE}
-    ) | msmtp
+    ) | msmtp --read-recipients
 
     ;;
 
@@ -80,9 +82,11 @@ ${EX_LOCK_CONFLICT}|${EX_NO_BUILD})
     BUILD_VERSION=$(githash)
 
     (
+        . ${SCRIPT_DIR}/build-email-aliases
+
         echo "\
-            To: buildnotify
-            Cc: buildother
+            To: ${mailnotify}
+            Cc: ${mailother}
             Reply-To: do-not-reply@biznuvo.com
             Subject: Build ${BRANCH} :: FAILURE
 
@@ -94,9 +98,11 @@ ${EX_LOCK_CONFLICT}|${EX_NO_BUILD})
         " | sed 's/^[[:space:]]*//'
 
         cat ${BUILD_LOGFILE}
-    ) | msmtp
+    ) | msmtp --read-recipients
 
     ;;
 esac
 
 rm ${BUILD_LOGFILE}
+
+log "----"
