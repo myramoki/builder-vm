@@ -2,13 +2,7 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-log() {
-    printf "%s : %s\n" "$(date +%Y/%m/%d-%H:%M:%S)" "${1}" >> ${LOGFILE}
-}
-
-output() {
-    printf "%s\n" "${1}"
-}
+. ${SCRIPT_DIR}/setup.sh
 
 # ----
 

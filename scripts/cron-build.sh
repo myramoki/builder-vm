@@ -1,15 +1,8 @@
 #!/bin/bash
 
-githash() {
-    git rev-parse --short HEAD
-}
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-log() {
-    printf "%s : %s\n" "$(date +%Y/%m/%d-%H:%M:%S)" "${1}" >> ${LOGFILE}
-}
-
-export EX_LOCK_CONFLICT=200
-export EX_NO_BUILD=201
+. ${SCRIPT_DIR}/setup.sh
 
 # ----
 
@@ -21,7 +14,6 @@ export LOGFILE="${HOME}/logs/${BRANCH_SIMPLE}.log"
 
 LOCKFILE="${HOME}/.locks/${BRANCH_SIMPLE}.lock"
 DESTDIR=/var/sftp/biznuvo/downloads
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 mkdir -p ${HOME}/repos
 cd ${HOME}/repos
@@ -61,6 +53,9 @@ ${EX_LOCK_CONFLICT}|${EX_NO_BUILD})
 
     (
         echo "\
+            To: buildnotify
+            Cc: buildother
+            Reply-To: do-not-reply@biznuvo.com
             Subject: Build ${BRANCH} :: SUCCESS
 
             BUILD SUCCESS
@@ -77,7 +72,7 @@ ${EX_LOCK_CONFLICT}|${EX_NO_BUILD})
         fi
 
         # cat ${BUILD_LOGFILE}
-    ) | msmtp buildnotify
+    ) | msmtp
 
     ;;
 
@@ -86,6 +81,9 @@ ${EX_LOCK_CONFLICT}|${EX_NO_BUILD})
 
     (
         echo "\
+            To: buildnotify
+            Cc: buildother
+            Reply-To: do-not-reply@biznuvo.com
             Subject: Build ${BRANCH} :: FAILURE
 
             BUILD FAILURE
@@ -96,7 +94,7 @@ ${EX_LOCK_CONFLICT}|${EX_NO_BUILD})
         " | sed 's/^[[:space:]]*//'
 
         cat ${BUILD_LOGFILE}
-    ) | msmtp buildnotify
+    ) | msmtp
 
     ;;
 esac

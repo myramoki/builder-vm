@@ -17,7 +17,7 @@ printf "Creating automation control files\n"
 mkdir $SUDO_USER_HOME/automation
 cd $SUDO_USER_HOME/automation
 
-curl -O "$GITDIR/scripts/{build-if-changed.sh,build.sh,cron-build.sh}"
+curl -O "$GITDIR/scripts/{build-if-changed.sh,build.sh,cron-build.sh,setup.sh}"
 chown -R $SUDO_USER: $SUDO_USER_HOME/automation
 chmod u+x $SUDO_USER_HOME/automation/*.sh
 

@@ -1,14 +1,8 @@
 #!/bin/bash
 
-# Uses JAVA_VERSION and LOGFILE exported from cron-build.sh
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-log() {
-    printf "%s : %s\n" "$(date +%Y/%m/%d-%H:%M:%S)" "${1}" >> ${LOGFILE}
-}
-
-output() {
-    printf "%s\n" "${1}"
-}
+. ${SCRIPT_DIR}/setup.sh
 
 # ----
 
@@ -19,9 +13,9 @@ esac
 
 log "Building ${BRANCH}"
 
-output "==== GIT NEW COMMITS ====" \
-&& git log @..@{u}
-&& output "\n\n==== GIT PULL ====" \
+printf "==== GIT NEW COMMITS ====\n\n" \
+&& git log @..@{u} \
+&& printf "\n\n==== GIT PULL ====\n\n" \
 && git pull \
-&& output "\n\n==== BUILD LOG ====" \
+&& printf "\n\n==== BUILD LOG ====\n\n" \
 && ./create-archives.sh pkg 2>&1
