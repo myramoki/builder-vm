@@ -4,14 +4,6 @@ export GITDIR
 SUDO_USER_HOME=$(getent passwd $SUDO_USER | cut -d: -f6)
 export SUDO_USER_HOME
 
-DEFAULT_JAVA_VERSION=21
-DEFAULT_GRADLE_VERSION=8.14
-DEFAULT_TOMCAT_VERSION=9
-
-export DEFAULT_JAVA_VERSION
-export DEFAULT_GRADLE_VERSION
-export DEFAULT_TOMCAT_VERSION
-
 echo "
 ##
 ## Choose which setup you want to run:
@@ -21,7 +13,7 @@ echo "
 ##   G - Github [only]
 ##
 ##   a - Automation [starter, java, github, automation]
-##   S - Automation [only]
+##   A - Automation [only]
 ##
 "
 
@@ -62,12 +54,12 @@ if [ -n "$respType" ]; then
 		sh -c "$(curl $(_github))"
 		;;
 
-	a)	echo "# Automation"
-		sh -c "$(curl $(_basic) $(_java) $(_github) $(_automation))"
-		;;
-
 	A)	echo "# Automation [only]"
 		sh -c "$(curl $(_automation))"
+		;;
+
+	a)	echo "# Automation"
+		sh -c "$(curl $(_basic) $(_java) $(_github) $(_automation))"
 		;;
 	esac
 fi
