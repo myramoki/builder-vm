@@ -58,7 +58,7 @@ ${EX_LOCK_CONFLICT}|${EX_NO_BUILD})
             To: ${mailnotify}
             Cc: ${mailother}
             Reply-To: do-not-reply@biznuvo.com
-            Subject: Build ${BRANCH} :: SUCCESS
+            Subject: Auto Build ${BRANCH} :: SUCCESS
 
             BUILD SUCCESS
 
@@ -88,7 +88,7 @@ ${EX_LOCK_CONFLICT}|${EX_NO_BUILD})
             To: ${mailnotify}
             Cc: ${mailother}
             Reply-To: do-not-reply@biznuvo.com
-            Subject: Build ${BRANCH} :: FAILURE
+            Subject: Auto Build ${BRANCH} :: FAILURE
 
             BUILD FAILURE
 
